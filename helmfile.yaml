@@ -1,0 +1,10 @@
+---
+repositories:
+  - name: helm-charts
+    url: git+https://github.com/AshishBadgujar/helm-charts
+
+releases:
+
+  - name: helloworld
+    chart: helloworld/helloworld
+    installed: true

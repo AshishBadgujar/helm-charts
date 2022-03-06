@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: "{{.Values.frontend.name}}"
+  name: "{{.Values.frontend.name}}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{.Values.frontend.name}}"
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: "{{.Values.frontend.name}}"
+    spec:
+      containers:
+        - image: "{{.Values.frontend.image}}:{{.Values.frontend.tag}}"
+          name: go-to-do
+          ports:
+            - containerPort: 3000
+          resources: {}
+status: {}

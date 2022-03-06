@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: "{{.Values.backend.svc}}"
+  name: "{{.Values.backend.svc}}"
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: "{{.Values.backend.name}}"
+status:
+  loadBalancer: {}

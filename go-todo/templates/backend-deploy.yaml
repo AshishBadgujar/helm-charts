@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: "{{.Values.backend.name}}"
+  name: "{{.Values.backend.name}}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{.Values.backend.name}}"
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: "{{.Values.backend.name}}"
+    spec:
+      containers:
+        - image: "{{.Values.backend.image}}:{{.Values.backend.tag}}"
+          name: "{{.Values.backend.name}}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{.Values.cm}}"
+                  key: database_url
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: "{{.Values.secret}}"
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  "{{.Values.secret}}"
+                  key: db_password
+            - name: DB_NAME
+              value: "test"
+            - name: DB_COLLECTION_NAME
+              value: "todolist"
+          resources: {}
+status: {}

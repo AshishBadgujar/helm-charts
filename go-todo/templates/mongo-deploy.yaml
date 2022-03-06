@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{.Values.db.name}}"
+  labels:
+    app: "{{.Values.db.name}}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{.Values.db.name}}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "{{.Values.db.name}}"
+    spec:
+      volumes:
+        - name: mydb
+          hostPath:
+            path: /data
+      containers:
+        - name: "{{.Values.db.name}}"
+          image: "{{.Values.db.image}}:{{.Values.db.tag}}"
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mydb
+              mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: "{{.Values.secret}}"
+                  key: db_username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{.Values.secret}}"
+                  key: db_password

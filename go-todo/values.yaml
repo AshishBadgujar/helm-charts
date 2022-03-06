@@ -1,0 +1,19 @@
+backend:
+  name: backend
+  image: dkrashi/go-to-do
+  tag: backend-8.0
+  svc: backend-service
+frontend:
+  name: frontend
+  image: dkrashi/go-to-do
+  tag: frontend-8.0
+  svc: frontend-service
+db:
+  name: mongodb
+  image: mongo
+  tag: latest
+  svc: mongodb-service
+cm: configmap
+secret: db-secret
+dbnetpol: db-netpol
+backnetpol: backend-netpol

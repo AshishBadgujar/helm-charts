@@ -1,9 +1,18 @@
+# ---
+# repositories:
+#   - name: helm-charts
+#     url: git+https://github.com/AshishBadgujar/helm-charts
+
+# releases:
+#   - name: helloworld
+#     chart: ./helloworld
+#     installed: false
 ---
 repositories:
-  - name: helm-charts
-    url: git+https://github.com/AshishBadgujar/helm-charts
+  - name: helloworld
+    url: git+https://github.com/rahulwagh/helmchart@helloworld?ref=master&sparse=0
 
 releases:
   - name: helloworld
-    chart: ./helloworld
+    chart: helloworld/helloworld
     installed: false

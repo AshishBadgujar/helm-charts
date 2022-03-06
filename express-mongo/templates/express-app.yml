@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.deploy1.name }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Values.deploy1.name }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.deploy1.name }}"
+    spec:
+      containers:
+        - name: "{{ .Values.deploy1.name }}"
+          image: "{{.Values.deploy1.image}}:{{.Values.deploy1.tag }}"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: "{{.Values.cm}}"
+                  key: database_url
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: "{{.Values.secret}}"
+                  key: mongo-root-username
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{.Values.secret}}"
+                  key: mongo-root-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.svc1 }}"
+spec:
+  selector:
+    app: "{{ .Values.deploy1.name }}"
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 31000

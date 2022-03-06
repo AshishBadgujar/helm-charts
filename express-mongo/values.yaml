@@ -1,0 +1,22 @@
+deploy1:
+  name: "express-app"
+  image: "dkrashi/express-app"
+  tag: "7.0"
+svc1: "express-app-service"
+deploy2:
+  name: "mongo-express"
+  image: "mongo-express"
+  tag: "latest"
+svc2: "mongo-experss-service"
+db: "mongodb-sts"
+pvc:
+  name: "mypvc"
+  storage: "1Gi"
+  accessMode: "ReadWriteOnce"
+pv:
+  name: "mypv"
+  storage: "1Gi"
+  accessMode: "ReadWriteOnce"
+netpol: "mongo-netpol"
+secret: "mongodb-secret"
+cm: "mongodb-configmap"
